@@ -29,6 +29,8 @@ opcoes_freq = [
     "1770_1530", "1520_1200", "1200_905", "905_700"
 ]
 
+
+
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -49,8 +51,8 @@ if metodo_selecionado == 'UMAP':
     col_umap1, col_umap2, col_umap3 = st.columns(3)
     
     with col_umap1:
-        metrica_selecionada = st.selectbox("Métrica de Comparação:", ['cosine', 'euclidean'])
-
+        metrica_selecionada = st.selectbox("Métrica de Comparação:", ['Cosseno', 'Euclidiano'])
+        metrica_selecionada = 'cosine' if metrica_selecionada == 'Cosseno' else 'euclidean'
     with col_umap2:
         if abelha_selecionada == 'Ambas':
             nn_selecionado = st.selectbox("Tamanho da Vizinhança (N):", [5, 7, 10, 15])
