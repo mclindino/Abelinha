@@ -26,7 +26,7 @@ Uma técnica não-linear, focada em agrupar amostras com assinaturas semelhantes
 
 opcoes_freq = [
     "Todas", "3800_3015", "3015_2450", 
-    "1770_1530", "1520_1200", "1200_905", "905_700"
+    "1770_1530", "1520_1200", "1500_700", "1200_905", "905_700"
 ]
 
 
@@ -62,29 +62,53 @@ if metodo_selecionado == 'UMAP':
     with col_umap3:
         md_selecionado = st.selectbox("Espalhamento (Min Dist):", [0.1, 0.8])
 
+opcoes_agrupamento = ["Produtor", "Coleta"]
+if abelha_selecionada == 'Ambas':
+    opcoes_agrupamento.append("Bee")
+
+agrupamento_selecionado = st.radio("Se for salvar a imagem, agrupar por:", opcoes_agrupamento, horizontal=True)
+
 st.divider()
 
 if abelha_selecionada != 'Ambas':
     
     if not st.toggle("Resultado PCA/UMAP"):
-        nome_arquivo = f"graficos/{abelha_selecionada}/Frequencias.html"
-        
-        if os.path.exists(nome_arquivo):
-            with open(nome_arquivo, 'r', encoding='utf-8') as f:
-                html_data = f.read()
+        if not st.toggle("Salvar Imagem"):
+            nome_arquivo = f"graficos/{abelha_selecionada}/Frequencias_visualizacao.html"
             
-            components.html(html_data, height=800)
+            if os.path.exists(nome_arquivo):
+                with open(nome_arquivo, 'r', encoding='utf-8') as f:
+                    html_data = f.read()
+                
+                components.html(html_data, height=800)
+            else:
+                st.error(f"⚠️ Gráfico não encontrado! O arquivo procurado foi: {nome_arquivo}")
+                st.info("Verifique se você gerou essa combinação específica ou se a pasta 'graficos' está no lugar certo.")
         else:
-            st.error(f"⚠️ Gráfico não encontrado! O arquivo procurado foi: {nome_arquivo}")
-            st.info("Verifique se você gerou essa combinação específica ou se a pasta 'graficos' está no lugar certo.")
+            nome_arquivo = f"graficos/{abelha_selecionada}/Frequencias_salvar.html"
+            
+            if os.path.exists(nome_arquivo):
+                with open(nome_arquivo, 'r', encoding='utf-8') as f:
+                    html_data = f.read()
+                
+                components.html(html_data, height=800)
+            else:
+                st.error(f"⚠️ Gráfico não encontrado! O arquivo procurado foi: {nome_arquivo}")
+                st.info("Verifique se você gerou essa combinação específica ou se a pasta 'graficos' está no lugar certo.")
         
         #st.divider()
     
     else:
         if metodo_selecionado == 'PCA':
-            nome_arquivo = f"graficos/{abelha_selecionada}/PCA_{dim}_{freq_selecionada}.html"
+            if not st.toggle("Salvar Imagem"):
+                nome_arquivo = f"graficos/{abelha_selecionada}/PCA_{dim}_{freq_selecionada}_visualizar.html"
+            else:
+                nome_arquivo = f"graficos/{abelha_selecionada}/PCA_{dim}_{freq_selecionada}_{agrupamento_selecionado}_salvar.html"
         else:
-            nome_arquivo = f"graficos/{abelha_selecionada}/UMAP_{dim}_{freq_selecionada}_{metrica_selecionada}_nn{nn_selecionado}_md{md_selecionado}.html"
+            if not st.toggle("Salvar Imagem"):
+                nome_arquivo = f"graficos/{abelha_selecionada}/UMAP_{dim}_{freq_selecionada}_{metrica_selecionada}_nn{nn_selecionado}_md{md_selecionado}_visualizar.html"
+            else:
+                nome_arquivo = f"graficos/{abelha_selecionada}/UMAP_{dim}_{agrupamento_selecionado}_{freq_selecionada}_{metrica_selecionada}_nn{nn_selecionado}_md{md_selecionado}_salvar.html"
         
         if os.path.exists(nome_arquivo):
             with open(nome_arquivo, 'r', encoding='utf-8') as f:
@@ -96,10 +120,16 @@ if abelha_selecionada != 'Ambas':
             st.info("Verifique se você gerou essa combinação específica ou se a pasta 'graficos' está no lugar certo.")
 else:
     if metodo_selecionado == 'PCA':
-        nome_arquivo = f"graficos/{abelha_selecionada}/PCA_{dim}_{freq_selecionada}.html"
+        if not st.toggle("Salvar Imagem"):
+            nome_arquivo = f"graficos/{abelha_selecionada}/PCA_{dim}_{freq_selecionada}_visualizar.html"
+        else:
+            nome_arquivo = f"graficos/{abelha_selecionada}/PCA_{dim}_{freq_selecionada}_{agrupamento_selecionado}_salvar.html"
     else:
-        nome_arquivo = f"graficos/{abelha_selecionada}/UMAP_{dim}_{freq_selecionada}_{metrica_selecionada}_nn{nn_selecionado}_md{md_selecionado}.html"
-    
+        if not st.toggle("Salvar Imagem"):
+            nome_arquivo = f"graficos/{abelha_selecionada}/UMAP_{dim}_{freq_selecionada}_{metrica_selecionada}_nn{nn_selecionado}_md{md_selecionado}_visualizar.html"
+        else:
+            nome_arquivo = f"graficos/{abelha_selecionada}/UMAP_{dim}_{agrupamento_selecionado}_{freq_selecionada}_{metrica_selecionada}_nn{nn_selecionado}_md{md_selecionado}_salvar.html"
+            
     if os.path.exists(nome_arquivo):
         with open(nome_arquivo, 'r', encoding='utf-8') as f:
             html_data = f.read()
