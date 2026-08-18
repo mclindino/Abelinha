@@ -1,1 +1,10 @@
+pandas
+numpy
+umap-learn
+plotly
+matplotlib
+tqdm
+scipy
+scikit-learn
 streamlit
+openpyxl

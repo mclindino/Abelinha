@@ -1,2 +1,7 @@
+# Folders
+.venv/
+graphs/
+__pycache__/
+
 .ipynb_checkpoints
 source/.ipynb_checkpoints
