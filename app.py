@@ -120,7 +120,7 @@ with col_ferramentas:
         cores_customizadas = []
         n_groups = st.session_state.n_groups
         c_cols = st.columns(2)
-        paleta_default = ["#2A9D8F", "#E76F51", "#E9C46A", "#264653", "#F4A261", "#8D99AE", "#EF233C", "#2B2D42"]
+        paleta_default = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
         
         for i in range(n_groups):
             with c_cols[i % 2]:

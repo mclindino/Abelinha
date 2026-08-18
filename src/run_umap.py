@@ -47,12 +47,12 @@ def main(bee: str, limit_lower: int, limit_upper: int, dimensions: int, n_neighb
     umap = UMAP(n_neighbors=n_neighbors, min_dist=min_dist, metric=metric, n_components=dimensions, random_state=SEED, n_jobs=1)
     umap_result = umap.fit_transform(filtered_df)
 
-    plt.style.use('seaborn-v0_8-paper')
     plt.rcParams.update({
         'font.family': 'sans-serif',
+        'font.sans-serif': ['Open Sans', 'Arial', 'Helvetica', 'sans-serif'],
         'axes.titlesize': 14,
         'axes.labelsize': 12,
-        'axes.titleweight': 'bold',
+        'axes.titleweight': 'normal',
         'axes.spines.top': False,
         'axes.spines.right': False,
         'xtick.labelsize': 10,
@@ -65,9 +65,8 @@ def main(bee: str, limit_lower: int, limit_upper: int, dimensions: int, n_neighb
     if custom_colors and len(custom_colors) >= len(unique_groups):
         colors = custom_colors[:len(unique_groups)]
     else:
-        colors = ['#2A9D8F', '#E76F51'] 
-        if len(unique_groups) > 2:
-            colors = plt.cm.Set2(np.linspace(0, 1, len(unique_groups)))
+        plotly_colors = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
+        colors = [plotly_colors[i % len(plotly_colors)] for i in range(len(unique_groups))]
 
     title_str = custom_title if custom_title else f'{dimensions}D UMAP - {bee.capitalize()}'
 
@@ -89,7 +88,7 @@ def main(bee: str, limit_lower: int, limit_upper: int, dimensions: int, n_neighb
             
             for x, y, p_idx in zip(umap_result[idx, 0], umap_result[idx, 1], producer_idx[idx]):
                 text_lbl = f"{marker_prefix}{p_idx}"
-                ax.annotate(text_lbl, (x, y), textcoords="offset points", xytext=(0, 7), ha='center', fontsize=8, color='#333333', weight='bold')
+                ax.annotate(text_lbl, (x, y), textcoords="offset points", xytext=(0, 7), ha='center', fontsize=8, color='#333333', weight='normal')
 
         ax.legend(title='Grupos', title_fontsize=12, fontsize=11, loc='best')
         ax.set_title(title_str, pad=15)
@@ -126,7 +125,7 @@ def main(bee: str, limit_lower: int, limit_upper: int, dimensions: int, n_neighb
             
             for x, y, z, p_idx in zip(umap_result[idx, 0], umap_result[idx, 1], umap_result[idx, 2], producer_idx[idx]):
                 text_lbl = f"{marker_prefix}{p_idx}"
-                ax.text(x, y, z + 0.1, text_lbl, size=8, color='#333333', weight='bold', ha='center', va='bottom')
+                ax.text(x, y, z + 0.1, text_lbl, size=8, color='#333333', weight='normal', ha='center', va='bottom')
 
         ax.legend(title='Grupos', title_fontsize=12, fontsize=11, loc='best')
         ax.set_title(title_str, pad=15)
